@@ -5,7 +5,11 @@ user sheet id's are stored.
 import os
 import sqlite3
 
-conn = sqlite3.connect(os.path.join(os.path.dirname(__file__), "db", "user_sheets.db"))
+
+db_dir = os.path.dirname(__file__) + "/db"
+os.makedirs(db_dir, exist_ok=True)
+conn = sqlite3.connect(os.path.join(db_dir, "user_sheets.db"))
+
 cursor = conn.cursor()
 
 
