@@ -1,15 +1,13 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from server import _
-
 
 def new_sheet_keyb() -> InlineKeyboardMarkup:
     """Get /register menu for unregistered users"""
     markup = InlineKeyboardMarkup()
     markup.row(
-        InlineKeyboardButton(_("Connect new Google Sheet"), callback_data="new_sheet")
+        InlineKeyboardButton(("Connect new Google Sheet"), callback_data="new_sheet")
     )
-    markup.row(InlineKeyboardButton(_("Cancel"), callback_data="cancel"))
+    markup.row(InlineKeyboardButton(("Cancel"), callback_data="cancel"))
 
     return markup
 
@@ -19,13 +17,13 @@ def change_sheet_keyb() -> InlineKeyboardMarkup:
     markup = InlineKeyboardMarkup()
     markup.row(
         InlineKeyboardButton(
-            _("Change connected Google Sheet"), callback_data="new_sheet"
+            ("Change connected Google Sheet"), callback_data="new_sheet"
         )
     )
     markup.row(
-        InlineKeyboardButton(_("Forget my Google Sheet"), callback_data="forget_sheet")
+        InlineKeyboardButton(("Forget my Google Sheet"), callback_data="forget_sheet")
     )
-    markup.row(InlineKeyboardButton(_("Cancel"), callback_data="cancel"))
+    markup.row(InlineKeyboardButton(("Cancel"), callback_data="cancel"))
 
     return markup
 
@@ -33,8 +31,8 @@ def change_sheet_keyb() -> InlineKeyboardMarkup:
 def copytemplate_done_keyb() -> InlineKeyboardMarkup:
     """Get keyboard on registration step 1"""
     markup = InlineKeyboardMarkup()
-    markup.row(InlineKeyboardButton(_("Done"), callback_data="template_copied"))
-    markup.row(InlineKeyboardButton(_("Cancel"), callback_data="cancel"))
+    markup.row(InlineKeyboardButton(("Done"), callback_data="template_copied"))
+    markup.row(InlineKeyboardButton(("Cancel"), callback_data="cancel"))
 
     return markup
 
@@ -42,8 +40,8 @@ def copytemplate_done_keyb() -> InlineKeyboardMarkup:
 def addemail_done_keyb() -> InlineKeyboardMarkup:
     """Get keyboard on registration step 2"""
     markup = InlineKeyboardMarkup()
-    markup.row(InlineKeyboardButton(_("Done"), callback_data="email_added"))
-    markup.row(InlineKeyboardButton(_("Cancel"), callback_data="cancel"))
+    markup.row(InlineKeyboardButton(("Done"), callback_data="email_added"))
+    markup.row(InlineKeyboardButton(("Cancel"), callback_data="cancel"))
 
     return markup
 
@@ -52,8 +50,8 @@ def understand_keyb() -> InlineKeyboardMarkup:
     """Get keyboard on forget sheet warning"""
     markup = InlineKeyboardMarkup()
     markup.row(
-        InlineKeyboardButton(_("I understand"), callback_data="user_understands")
+        InlineKeyboardButton(("I understand"), callback_data="user_understands")
     )
-    markup.row(InlineKeyboardButton(_("Cancel"), callback_data="cancel"))
+    markup.row(InlineKeyboardButton(("Cancel"), callback_data="cancel"))
 
     return markup

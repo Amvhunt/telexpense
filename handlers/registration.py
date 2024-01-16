@@ -8,7 +8,7 @@ from gspread.utils import extract_id_from_url
 import database
 from keyboards import registration
 from keyboards.user import main_keyb, register_keyb
-from server import _, bot
+from server import bot
 from sheet import Sheet
 
 TEMPLATE_SHEET_LINK = "https://docs.google.com/spreadsheets/\
@@ -45,7 +45,7 @@ async def start_registration(message: Message):
     # registered or not
     if database.is_user_registered(message.from_user.id):
         await message.answer(
-            _(
+            (
                 "You are already registered user!\n\n"
                 "You can either connect me to a new Google Sheet or delete "
                 "a connected sheet from the database"
@@ -54,7 +54,7 @@ async def start_registration(message: Message):
         )
     else:
         await message.answer(
-            _(
+            (
                 "Looks like you are new here...\n\n"
                 "If you want to use me, connect me to new Google Sheet"
             ),
@@ -84,7 +84,7 @@ async def process_user_option(call: CallbackQuery):
             video="CgACAgQAAxkDAAIk8GKTsJeiKNiFtQV5r3Y5TxnzI6WwAAKGAwACxs6cUJBCE840i8xkJAQ",
             width=1512,
             height=946,
-            caption=_(
+            caption=(
                 "*STEP 1*\n\n"
                 "Copy this Google Sheet template to your Google account. "
                 "You do this to ensure that your financial data belongs only to you.\n\n"
@@ -106,7 +106,7 @@ async def process_user_option(call: CallbackQuery):
     elif call.data == "forget_sheet":
         # Sending warning to user
         await bot.edit_message_text(
-            _("Are you sure? After that you have to /register again to use me"),
+            ("Are you sure? After that you have to /register again to use me"),
             call.from_user.id,
             call.message.message_id,
             reply_markup=registration.understand_keyb(),
@@ -125,7 +125,7 @@ async def process_cancel(call: CallbackQuery, state: FSMContext):
     # Send message with reply markup
     await bot.send_message(
         call.from_user.id,
-        _("OK, next time"),
+        ("OK, next time"),
         reply_markup=main_keyb() if registered else register_keyb(),
     )
 
@@ -143,7 +143,7 @@ async def add_bot_email(call: CallbackQuery):
             # "CgACAgQAAxkDAAICpmKTsnx3QJm2mI8cA61YzzZpK9IyAAJtAwAC7SukUMWd2HYBF9nqJAQ",
             # for telexpense
             "CgACAgQAAxkDAAIk-2KTuhq5jmAyOt2GS2xD73Vo6cCIAAJtAwAC7SukULuOaMN-Ao5_JAQ",
-            caption=_(
+            caption=(
                 "*STEP 2*\n\n"
                 "Add me to the table as an editor so I can add transactions "
                 "and read the balance. Here is my email:\n\n"
@@ -166,7 +166,7 @@ async def ask_sheet_url(call: CallbackQuery):
     # Send message with step 3 of instructions
     await bot.send_message(
         call.from_user.id,
-        _(
+        (
             "*STEP 3*\n\n"
             "Copy the link to the table in your account and send it to this chat. "
             "It is necessary for me to remember you"
@@ -188,7 +188,7 @@ async def process_sheet_url(message: Message, state: FSMContext):
     # Stop form
     await state.finish()
 
-    await message.answer(_("Checking this sheet..."))
+    await message.answer(("Checking this sheet..."))
 
     registered = database.is_user_registered(message.from_user.id)
 
@@ -201,7 +201,7 @@ async def process_sheet_url(message: Message, state: FSMContext):
             )
 
             await message.answer(
-                _(
+                (
                     "Your sheet successfully changed!\n\n"
                     "Don't forget to select the main currency and its format in /currency "
                     "and set bots language in /language"
@@ -213,7 +213,7 @@ async def process_sheet_url(message: Message, state: FSMContext):
                 message.from_user.id, extract_id_from_url(message.text)
             )
             await message.answer(
-                _(
+                (
                     "Great, you are in!\n\n"
                     "Don't forget to select the main currency and its format in /currency "
                     "and set bots language in /language"
@@ -224,7 +224,7 @@ async def process_sheet_url(message: Message, state: FSMContext):
         return
 
     await message.answer(
-        _(
+        (
             "Hm. Looks like it's not a link I'm looking for...\n\n"
             "Read the [wiki]({wiki}) and try to /register one more time!".format(
                 wiki=BOT_WIKI
@@ -248,7 +248,7 @@ async def forget_user_sheet(call: CallbackQuery, state: FSMContext):
 
     await bot.send_message(
         call.from_user.id,
-        _("See you next time!"),
+        ("See you next time!"),
         reply_markup=register_keyb(),
     )
 

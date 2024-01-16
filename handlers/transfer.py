@@ -7,7 +7,6 @@ from gspread.exceptions import GSpreadException
 import database
 import records
 from keyboards import user
-from server import _
 from sheet import Sheet
 
 # TODO: Needs refactoring
@@ -33,7 +32,7 @@ async def process_transaction(message: Message, state: FSMContext):
 
     # Starting form filling
     await TransferForm.outcome_amount.set()
-    await message.answer(_('Specify an amount of transfer\nor type "cancel"'))
+    await message.answer(('Specify an amount of transfer\nor type "cancel"'))
 
     # As the user enters the amount of transfer,
     # I send a query to the table to get today date and accounts
@@ -44,7 +43,7 @@ async def process_transaction(message: Message, state: FSMContext):
     except GSpreadException:
         await state.finish()
         await message.answer(
-            _(
+            (
                 "😳 Something went wrong...\n\n"
                 "Please try again later.\n"
                 "If it does not work again, check your table or add it again via /register. "
@@ -74,7 +73,7 @@ async def process_tran_outcome_amount(message: Message, state: FSMContext):
     # stop filling out the form and send main keyboard
     if parsed_amount is None:
         await message.answer(
-            _(
+            (
                 "❌ Cannot understand this amount...\n"
                 "Try to add /transfer one more time!"
             ),
@@ -97,7 +96,7 @@ async def process_tran_outcome_amount(message: Message, state: FSMContext):
     # Go to the next step of form and send message
     await TransferForm.next()
     await message.answer(
-        _("Specify the account from which\nthe money was transferred"),
+        ("Specify the account from which\nthe money was transferred"),
         reply_markup=accounts_markup,
     )
 
@@ -114,7 +113,7 @@ async def process_outcome_account(message: Message, state: FSMContext):
         # Stop from getting and show main keyboard
         if parsed_account == None:
             await message.answer(
-                _(
+                (
                     "❌ This account doesn't exist...\n"
                     "Try to add /transfer one more time!"
                 ),
@@ -130,7 +129,7 @@ async def process_outcome_account(message: Message, state: FSMContext):
     await TransferForm.next()
     # Send a message with the button for
     await message.answer(
-        _(
+        (
             "Specify the amount added to the account to which the transfer was made.\n\n"
             + 'If the amounts are the same, tap "Same amount"'
         ),
@@ -161,7 +160,7 @@ async def process_tran_income_amount(message: Message, state: FSMContext):
             # stop filling out the form and send main keyboard
             if parsed_amount is None:
                 await message.answer(
-                    _(
+                    (
                         "❌ Cannot understand this amount...\n"
                         "Try to add /transfer one more time!"
                     ),
@@ -180,7 +179,7 @@ async def process_tran_income_amount(message: Message, state: FSMContext):
     # Go to the next step of form and send message
     await TransferForm.next()
     await message.answer(
-        _("Specify the account to which\nthe money was transferred"),
+        ("Specify the account to which\nthe money was transferred"),
         reply_markup=accounts_markup,
     )
 
@@ -190,7 +189,7 @@ async def process_income_account(message: Message, state: FSMContext):
     This handler is used to get the income account after calling /transfer
     """
     transaction_record = []
-    answer_message = _("👍 Successfully added transfer\nfrom {account1} to {account2}!")
+    answer_message = ("👍 Successfully added transfer\nfrom {account1} to {account2}!")
 
     async with state.proxy() as data:
         # Parsing account
@@ -200,7 +199,7 @@ async def process_income_account(message: Message, state: FSMContext):
         # Stop from getting and show main keyboard
         if parsed_account == None:
             await message.answer(
-                _(
+                (
                     "❌ This account doesn't exist...\n"
                     "Try to add /transfer one more time!"
                 ),
@@ -231,7 +230,7 @@ async def process_income_account(message: Message, state: FSMContext):
         user_sheet.add_transaction(transaction_record)
     except GSpreadException:
         await message.answer(
-            _(
+            (
                 "😳 Something went wrong...\n\n"
                 "Please try again later.\n"
                 "If it does not work again, check your table or add it again via /register. "
@@ -254,7 +253,7 @@ async def cmd_addtran(message: Message):
     # If user just type command
     if message.text == "/addtran":
         await message.answer(
-            _(
+            (
                 "Transfer can be added by:\n"
                 "    `/addtran outcome_amount, outcome\\_account, [income\\_amount], income\\_account`\n"
                 "where income amount is optional\\. Add it if your transaction is multicurrency\\.\n\n"
@@ -276,7 +275,7 @@ async def cmd_addtran(message: Message):
     # If not parsed, send help message
     if parsed_transaction == []:
         await message.answer(
-            _(
+            (
                 "Cannot understand this transaction\\!\n\n"
                 "Transfer can be added by:\n"
                 "    `/addtran outcome\\_amount, outcome\\_account, [income\\_amount], income\\_account`\n"
@@ -292,7 +291,7 @@ async def cmd_addtran(message: Message):
     # If wrong outcome amount
     if parsed_transaction[1] == None:
         await message.answer(
-            _(
+            (
                 "Cannot understand this transaction!\n"
                 + "Looks like outcome amount is wrong!"
             )
@@ -302,7 +301,7 @@ async def cmd_addtran(message: Message):
     # If wrong account
     if parsed_transaction[2] == None:
         await message.answer(
-            _(
+            (
                 "Cannot understand this transaction!\n"
                 + "Looks like this outcome account doesn't exist!"
             )
@@ -312,7 +311,7 @@ async def cmd_addtran(message: Message):
     # If wrong account
     if parsed_transaction[3] == None:
         await message.answer(
-            _(
+            (
                 "Cannot understand this transaction!\n"
                 + "Looks like income amount is wrong!"
             )
@@ -322,7 +321,7 @@ async def cmd_addtran(message: Message):
     # If wrong account
     if parsed_transaction[4] == None:
         await message.answer(
-            _(
+            (
                 "Cannot understand this transaction!\n"
                 + "Looks like this income account doesn't exist!"
             )
@@ -333,7 +332,7 @@ async def cmd_addtran(message: Message):
     user_sheet = Sheet(database.get_sheet_id(message.from_user.id))
     if user_sheet == None:
         await message.answer(
-            _(
+            (
                 "😳 Something went wrong...\n\n"
                 "Please try again later.\n"
                 "If it does not work again, check your table or add it again via /register. "
@@ -345,7 +344,7 @@ async def cmd_addtran(message: Message):
 
     user_sheet.add_transaction(parsed_transaction)
     await message.answer(
-        _(
+        (
             "👍 Successfully added transaction from \n{account1} to {account2}!".format(
                 account1=parsed_transaction[2], account2=parsed_transaction[4]
             )

@@ -5,7 +5,7 @@ from aiogram.utils.exceptions import MessageToEditNotFound
 
 import database
 from keyboards.user import main_keyb, register_keyb
-from server import _, bot
+from server import bot
 from sheet import Sheet
 
 unregistered = lambda message: not database.is_user_registered(message.from_user.id)
@@ -18,7 +18,7 @@ async def cmd_start(message: Message):
     # if not - 'register' button
     is_registered = database.is_user_registered(message.from_user.id)
     await message.answer(
-        _(
+        (
             "Hi! I'm Telexpense bot 📺\n\n"
             "I can help you manage your finances in Google Sheet.\n"
             "If you are a new user, read the [wiki]({wiki}) "
@@ -34,7 +34,7 @@ async def cmd_help(message: Message):
     """This handler is called when user sends /help command."""
     # TODO: Create different help message for unregistered users
     await message.reply(
-        _(
+        (
             "I can help you manage your finances in Google Sheet.\n\n"
             "If you don't understand something, check out [this wiki]({wiki})\n\n"
             "I can understand these commands:\n\n"
@@ -71,7 +71,7 @@ def register_start_help(dp: Dispatcher):
 async def answer_unregistered(message: Message):
     """This handler is used to answer to unregistered users."""
     await message.answer(
-        _(
+        (
             "I can only work with registered users!\n"
             "Read the [wiki]({wiki}) or type /register".format(wiki=BOT_WIKI)
         ),
@@ -87,14 +87,14 @@ async def cmd_cancel(message: Message, state: FSMContext):
 
     if current_state is None:
         await message.answer(
-            _("Can cancel only while filling a form.\n\nNothing to cancel now!"),
+            ("Can cancel only while filling a form.\n\nNothing to cancel now!"),
             reply_markup=main_keyb(),
         )
     else:
         # Cancel state and inform user about it
         await state.finish()
         await message.answer(
-            _("Cancelled"),
+            ("Cancelled"),
             reply_markup=main_keyb(),
         )
 
@@ -105,7 +105,7 @@ async def cmd_available(message: Message):
     user_sheet = Sheet(database.get_sheet_id(message.from_user.id))
     if user_sheet == None:
         await message.answer(
-            _(
+            (
                 "😳 Something went wrong...\n\n"
                 "Please try again later.\n"
                 "If it does not work again, check your table or add it again via /register. "
@@ -129,7 +129,7 @@ async def cmd_available(message: Message):
     # Combining answer string
     # ``` is used for parsing string in markdown to get
     # fixed width in message
-    available = _("💰 Your accounts:\n\n")
+    available = ("💰 Your accounts:\n\n")
     available += "```\n"
     for i in range(len(amounts) - 1):
         # Current line lenght
@@ -142,7 +142,7 @@ async def cmd_available(message: Message):
     available += "```"
 
     # Adding "Daily available" from last item from get func
-    available += _("\n*Daily available:*   ")
+    available += ("\n*Daily available:*   ")
     available += "`" + amounts[-1] + "`"
 
     await message.answer(available, parse_mode="MarkdownV2", reply_markup=main_keyb())
@@ -151,19 +151,19 @@ async def cmd_available(message: Message):
 async def undo_transaction(message: Message):
     """This handler is used to delete last transaction from user's sheet."""
     user_sheet = Sheet(database.get_sheet_id(message.from_user.id))
-    await message.answer(_("Wait a second..."))
+    await message.answer(("Wait a second..."))
 
     # Getting last transaction type
     last_tran_type = user_sheet.get_last_transaction_type()
     if last_tran_type == None:
         try:
             await bot.edit_message_text(
-                _("🤔 Looks like there is no transactions..."),
+                ("🤔 Looks like there is no transactions..."),
                 message.chat.id,
                 message.message_id + 1,
             )
         except MessageToEditNotFound:
-            await message.answer(_("🤔 Looks like there is no transactions..."))
+            await message.answer(("🤔 Looks like there is no transactions..."))
 
         return
 
@@ -172,12 +172,12 @@ async def undo_transaction(message: Message):
 
     try:
         await bot.edit_message_text(
-            _("👌 Successfully deleted last transaction!"),
+            ("👌 Successfully deleted last transaction!"),
             message.chat.id,
             message.message_id + 1,
         )
     except MessageToEditNotFound:
-        await message.answer(_("👌 Successfully deleted last transaction!"))
+        await message.answer(("👌 Successfully deleted last transaction!"))
 
 
 def register_user(dp: Dispatcher):

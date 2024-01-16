@@ -7,7 +7,6 @@ from gspread.exceptions import GSpreadException
 import database
 import records
 from keyboards import user
-from server import _
 from sheet import Sheet
 
 # TODO: Needs refactoring
@@ -32,7 +31,7 @@ async def process_income(message: Message, state: FSMContext):
     """
     # Starting form filling
     await IncomeForm.amount.set()
-    await message.answer(_('Specify an amount of income\nor type "cancel"'))
+    await message.answer(('Specify an amount of income\nor type "cancel"'))
 
     # As the user enters the amount of income,
     # I send a query to the table to get expense categories,
@@ -45,7 +44,7 @@ async def process_income(message: Message, state: FSMContext):
     except GSpreadException:
         await state.finish()
         await message.answer(
-            _(
+            (
                 "😳 Something went wrong...\n\n"
                 "Please try again later.\n"
                 "If it does not work again, check your table or add it again via /register. "
@@ -73,7 +72,7 @@ async def process_income_amount(message: Message, state: FSMContext):
     # stop filling out the form and send main keyboard
     if parsed_amount is None:
         await message.answer(
-            _("❌ Cannot understand this amount...\nTry to add /income one more time!"),
+            ("❌ Cannot understand this amount...\nTry to add /income one more time!"),
             reply_markup=user.main_keyb(),
         )
         # Stop form
@@ -92,7 +91,7 @@ async def process_income_amount(message: Message, state: FSMContext):
     # Go to the next step of form and send message
     await IncomeForm.next()
     await message.answer(
-        _("Specify a category of income"),
+        ("Specify a category of income"),
         reply_markup=in_categories_markup,
     )
 
@@ -113,7 +112,7 @@ async def process_income_category(message: Message, state: FSMContext):
         # Stop from getting and show main keyboard
         if data["category"] == None:
             await message.answer(
-                _(
+                (
                     "❌ This income category doesn't exist...\n"
                     "Try to add /income one more time!"
                 ),
@@ -131,7 +130,7 @@ async def process_income_category(message: Message, state: FSMContext):
     await IncomeForm.next()
     # Send message with the buttons with accounts titles
     await message.answer(
-        _("Specify an account"),
+        ("Specify an account"),
         reply_markup=accounts_markup,
     )
 
@@ -151,7 +150,7 @@ async def process_account(message: Message, state: FSMContext):
         # Stop from getting and show main keyboard
         if data["account"] == None:
             await message.answer(
-                _("❌ This account doesn't exist...\nTry to add /income one more time!"),
+                ("❌ This account doesn't exist...\nTry to add /income one more time!"),
                 reply_markup=user.main_keyb(),
             )
             # Stop form
@@ -162,7 +161,7 @@ async def process_account(message: Message, state: FSMContext):
 
     # Send a message with the button for cancelling description
     await message.answer(
-        _("Specify a description"),
+        ("Specify a description"),
         reply_markup=user.no_description_keyb(),
     )
 
@@ -174,7 +173,7 @@ async def process_record_description(message: Message, state: FSMContext):
     after calling the /expense or /income command.
     """
     record = []
-    answer_message = _("👍 Successfully added {amount} to \n {cat} to {account}!")
+    answer_message = ("👍 Successfully added {amount} to \n {cat} to {account}!")
 
     async with state.proxy() as data:
         # If not negative answer, add description to form
@@ -199,7 +198,7 @@ async def process_record_description(message: Message, state: FSMContext):
         except GSpreadException:
             await state.finish()
             await message.answer(
-                _(
+                (
                     "😳 Something went wrong...\n\n"
                     "Please try again later.\n"
                     "If it does not work again, check your table or add it again via /register. "
@@ -226,7 +225,7 @@ async def cmd_addinc(message: Message):
     # If user just type command
     if message.text == "/addinc":
         await message.answer(
-            _(
+            (
                 "Income can be added by:\n"
                 "    `/addinc amount, category, [account], [description]`\n"
                 "where account and description are optional.\n\n"
@@ -248,7 +247,7 @@ async def cmd_addinc(message: Message):
     # If not parsed, send help message
     if parsed_income == []:
         await message.answer(
-            _(
+            (
                 "Cannot understand this income!\n\n"
                 "Income can be added by:\n"
                 "    `/addinc amount, category, [account], [description]`\n"
@@ -264,14 +263,14 @@ async def cmd_addinc(message: Message):
     # If wrong amount
     if parsed_income[3] == None:
         await message.answer(
-            _("Cannot understand this income!\nLooks like amount is wrong!"),
+            ("Cannot understand this income!\nLooks like amount is wrong!"),
             reply_markup=user.main_keyb(),
         )
         return
     # If wrong category
     if parsed_income[2] == None:
         await message.answer(
-            _(
+            (
                 "Cannot understand this income!\n"
                 + "Looks like this income category doesn't exist!"
             ),
@@ -281,7 +280,7 @@ async def cmd_addinc(message: Message):
     # If wrong account
     if parsed_income[4] == None:
         await message.answer(
-            _(
+            (
                 "Cannot understand this income!\n"
                 + "Looks like this account doesn't exist!"
             ),
@@ -296,7 +295,7 @@ async def cmd_addinc(message: Message):
         user_sheet.add_record(parsed_income)
     except GSpreadException:
         await message.answer(
-            _(
+            (
                 "😳 Something went wrong...\n\n"
                 "Please try again later.\n"
                 "If it does not work again, check your table or add it again via /register. "
@@ -307,7 +306,7 @@ async def cmd_addinc(message: Message):
         return
 
     await message.answer(
-        _(
+        (
             "👍 Successfully added {amount} to {category}!".format(
                 amount=parsed_income[3], category=parsed_income[2]
             )

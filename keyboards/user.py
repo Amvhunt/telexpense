@@ -1,14 +1,12 @@
 from aiogram.types import ReplyKeyboardMarkup
 
-from server import _
-
 
 def main_keyb() -> ReplyKeyboardMarkup:
     """Get main keyboard"""
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.add(_("➕Income"), _("➖Expense"))
-    markup.add(_("💱Transfer"))
-    markup.add(_("💲Available"))
+    markup.add(("➕Income"), ("➖Expense"))
+    markup.add(("💱Transfer"))
+    markup.add(("💲Available"))
 
     return markup
 
@@ -16,7 +14,7 @@ def main_keyb() -> ReplyKeyboardMarkup:
 def no_description_keyb() -> ReplyKeyboardMarkup:
     """Get keyboard with 'No description' button"""
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.add(_("No description"))
+    markup.add(("No description"))
 
     return markup
 
@@ -24,7 +22,7 @@ def no_description_keyb() -> ReplyKeyboardMarkup:
 def same_amount_keyb() -> ReplyKeyboardMarkup:
     """Get keyboard with 'Same amount' button"""
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.add(_("Same amount"))
+    markup.add(("Same amount"))
 
     return markup
 

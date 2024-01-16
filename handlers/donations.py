@@ -7,7 +7,7 @@ from aiogram.types import CallbackQuery, LabeledPrice, Message, PreCheckoutQuery
 from aiogram.types.message import ContentType
 
 from keyboards import donation, user
-from server import _, bot
+from server import bot
 
 PROVIDER_TOKEN = os.getenv("TELEXPENSE_PROVIDER_TOKEN")
 PRICE = [LabeledPrice(label="Donate", amount=300)]
@@ -19,7 +19,7 @@ class DonationForm(StatesGroup):
 
 async def start_donation(message: Message):
     await message.answer(
-        _("Where do you want to make the payment from?"),
+        ("Where do you want to make the payment from?"),
         reply_markup=donation.pay_countries_inlkeyb(),
     )
 
@@ -37,7 +37,7 @@ async def process_donation_cancel(call: CallbackQuery, state: FSMContext):
     # Send message with reply markup
     await bot.send_message(
         call.from_user.id,
-        _("OK, next time"),
+        ("OK, next time"),
         reply_markup=user.main_keyb(),
     )
 
@@ -54,7 +54,7 @@ async def process_donation_russia(call: CallbackQuery, state: FSMContext):
 
     # Sending button with payment link
     await bot.edit_message_text(
-        _(
+        (
             "To transfer money tap the first button, "
             "you will be redirected to the payment page"
         ),
@@ -73,7 +73,7 @@ async def process_successful_payment(message: Message):
     """Sends thanks message if successfull payment"""
     await bot.send_message(
         message.chat.id,
-        _(
+        (
             "*🙏 Thank you for supporting my creator for "
             "{total_amount} {currency}!*\n\n🤔 Maybe now he can come "
             "up with even more functionality for me".format(
@@ -95,7 +95,7 @@ async def send_invoice(call: CallbackQuery, state: FSMContext):
 
     # Send help message
     await bot.edit_message_text(
-        _(
+        (
             "The minimum amount is 3€.\n\n"
             "If you want to donate a different amount, "
             'tap "Pay" and enter the amount of the tip, '
@@ -108,8 +108,8 @@ async def send_invoice(call: CallbackQuery, state: FSMContext):
     # Send invoice
     await bot.send_invoice(
         call.from_user.id,
-        title=_("Donation to developer"),
-        description=_("This is a voluntary donation to my creator."),
+        title=("Donation to developer"),
+        description=("This is a voluntary donation to my creator."),
         provider_token=PROVIDER_TOKEN,
         currency="eur",
         is_flexible=False,
