@@ -32,7 +32,6 @@ def register_all_handlers(dp):
     register_expenses(dp)
     register_income(dp)
     register_transfer(dp)
-    register_donations(dp)
 
 
 # Initialize bot and dispatcher
@@ -41,8 +40,6 @@ bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot, storage=storage)
 
 if __name__ == "__main__":
-    from handlers.admin import register_admin
-    from handlers.donations import register_donations
     from handlers.expenses import register_expenses
     from handlers.income import register_income
     from handlers.maincurrency import register_maincurrency
