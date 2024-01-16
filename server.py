@@ -4,10 +4,6 @@ import os
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-#read env variables from .env file
-from dotenv import load_dotenv
-load_dotenv()
-
 
 API_TOKEN = os.getenv("TELEXPENSE_TOKEN")
 
