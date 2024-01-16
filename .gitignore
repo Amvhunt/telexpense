@@ -146,6 +146,6 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-#db/user_sheets.db
+db/user_sheets.db
 token.json
 .DS_Store
