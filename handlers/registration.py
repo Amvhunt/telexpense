@@ -11,10 +11,16 @@ from keyboards.user import main_keyb, register_keyb
 from server import bot
 from sheet import Sheet
 
+
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 TEMPLATE_SHEET_LINK = "https://docs.google.com/spreadsheets/\
 d/1lO9oTJu3CudibuQCCqk-s1t3DSuRNRoty4SLY5UvG_w"
-BOT_SERVICE_EMAIL = "telexpense-bot@telexpense-bot.iam.gserviceaccount.com"
-BOT_WIKI = "https://github.com/pavelmakis/telexpense/wiki"
+BOT_SERVICE_EMAIL = "expense-bot@expensetracker-411212.iam.gserviceaccount.com"
+BOT_WIKI = "https://github.com/kusnyerik97/telexpense/wiki"
 
 
 class RegistrationForm(StatesGroup):
@@ -29,8 +35,11 @@ class RegistrationForm(StatesGroup):
 
 def check_url(message_text: str) -> bool:
     """Sheet template check"""
+    logger.info(message_text)
     if message_text.startswith("https://"):
+        logger.info("URL is valid")
         user_sheet = Sheet(extract_id_from_url(message_text))
+        logger.info(user_sheet)
         # Check if bot is able to connect to sheet
         if user_sheet != None:
             # Check if sheet is copied from template
@@ -70,27 +79,14 @@ async def process_user_option(call: CallbackQuery):
     await bot.answer_callback_query(call.id)
 
     if call.data == "new_sheet":
-        await bot.send_video(
-            # For each bot one file has different file_id. Thats why I need one
-            # file_id for my test bot and another for my production bot
-            #
-            # If you need to get file_id for your bot, send yourself a message with file
-            # from you bot using Telegram API in browser. In the result there will be
-            # file_id field
+        # Sending message with step 1 of instructions
+        await bot.send_message(
             call.from_user.id,
-            # for test bot
-            # video="CgACAgQAAxkDAAICnmKTrx5fRvoBSbfcmGHrpNOTrmByAAKGAwACxs6cUOdnAc6h666dJAQ",
-            # for telexpense
-            video="CgACAgQAAxkDAAIk8GKTsJeiKNiFtQV5r3Y5TxnzI6WwAAKGAwACxs6cUJBCE840i8xkJAQ",
-            width=1512,
-            height=946,
-            caption=(
+            (
                 "*STEP 1*\n\n"
                 "Copy this Google Sheet template to your Google account. "
                 "You do this to ensure that your financial data belongs only to you.\n\n"
-                "👉 [Telexpense Template Sheet]({sheet}) 👈".format(
-                    sheet=TEMPLATE_SHEET_LINK
-                )
+                "👉 [Telexpense Template Sheet]({sheet}) 👈".format(sheet=TEMPLATE_SHEET_LINK),
             ),
             parse_mode="Markdown",
             reply_markup=registration.copytemplate_done_keyb(),
@@ -136,23 +132,14 @@ async def process_cancel(call: CallbackQuery, state: FSMContext):
 async def add_bot_email(call: CallbackQuery):
     # Answer to query
     await bot.answer_callback_query(call.id)
-
-    await bot.edit_message_media(
-        InputMediaVideo(
-            # for test bot
-            # "CgACAgQAAxkDAAICpmKTsnx3QJm2mI8cA61YzzZpK9IyAAJtAwAC7SukUMWd2HYBF9nqJAQ",
-            # for telexpense
-            "CgACAgQAAxkDAAIk-2KTuhq5jmAyOt2GS2xD73Vo6cCIAAJtAwAC7SukULuOaMN-Ao5_JAQ",
-            caption=(
-                "*STEP 2*\n\n"
-                "Add me to the table as an editor so I can add transactions "
-                "and read the balance. Here is my email:\n\n"
-                "{email}".format(email=BOT_SERVICE_EMAIL)
-            ),
-            parse_mode="Markdown",
-        ),
-        call.from_user.id,
-        call.message.message_id,
+    await bot.edit_message_text(
+        chat_id=call.from_user.id,
+        message_id=call.message.message_id,
+        text=(" *STEP 2*\n\n"
+            "Add me to the table as an editor so I can add transactions "
+            "and read the balance. Here is my email:\n\n"
+            "{email}".format(email=BOT_SERVICE_EMAIL)),
+        parse_mode="Markdown",
         reply_markup=registration.addemail_done_keyb(),
     )
 

@@ -142,7 +142,7 @@ async def cmd_available(message: Message):
     available += "```"
 
     # Adding "Daily available" from last item from get func
-    available += ("\n*Daily available:*   ")
+    available += ("\n*Net worth:*   ")
     available += "`" + amounts[-1] + "`"
 
     await message.answer(available, parse_mode="MarkdownV2", reply_markup=main_keyb())

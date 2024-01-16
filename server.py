@@ -14,14 +14,9 @@ API_TOKEN = os.getenv("TELEXPENSE_TOKEN")
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-
-
-
 def register_all_handlers(dp):
     # Registering commands available for unregistered users
     register_start_help(dp)
-
-    register_admin(dp)
 
     # Registering commands for registration
     register_registration(dp)

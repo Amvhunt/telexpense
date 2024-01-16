@@ -4,9 +4,9 @@ from aiogram.types import ReplyKeyboardMarkup
 def main_keyb() -> ReplyKeyboardMarkup:
     """Get main keyboard"""
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.add(("➕Income"), ("➖Expense"))
-    markup.add(("💱Transfer"))
-    markup.add(("💲Available"))
+    markup.add(("Income"), ("Expense"))
+    markup.add(("Transfer"))
+    markup.add(("Available"))
 
     return markup
 
