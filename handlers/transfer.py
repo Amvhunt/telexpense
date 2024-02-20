@@ -358,10 +358,7 @@ def register_transfer(dp: Dispatcher):
     )
     dp.register_message_handler(process_transaction, commands=["transfer"])
     dp.register_message_handler(
-        process_transaction, lambda message: message.text.startswith("💱Transfer")
-    )
-    dp.register_message_handler(
-        process_transaction, lambda message: message.text.startswith("💱Перевод")
+        process_transaction, lambda message: message.text.startswith("Transfer")
     )
     dp.register_message_handler(
         process_tran_outcome_amount, state=TransferForm.outcome_amount

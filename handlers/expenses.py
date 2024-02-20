@@ -332,10 +332,7 @@ def register_expenses(dp: Dispatcher):
     dp.register_message_handler(process_expense, commands=["expense"])
     dp.register_message_handler(
         process_expense,
-        lambda message: message.text.startswith("➖Expense"),
-    )
-    dp.register_message_handler(
-        process_expense, lambda message: message.text.startswith("➖Расход")
+        lambda message: message.text.startswith("Expense"),
     )
     dp.register_message_handler(process_expense_amount, state=ExpenseForm.amount)
     dp.register_message_handler(process_expense_category, state=ExpenseForm.category)

@@ -320,10 +320,7 @@ def register_income(dp: Dispatcher):
     )
     dp.register_message_handler(process_income, commands=["income"])
     dp.register_message_handler(
-        process_income, lambda message: message.text.startswith("➕Income")
-    )
-    dp.register_message_handler(
-        process_income, lambda message: message.text.startswith("➕Доход")
+        process_income, lambda message: message.text.startswith("Income")
     )
     dp.register_message_handler(process_income_amount, state=IncomeForm.amount)
     dp.register_message_handler(process_income_category, state=IncomeForm.category)

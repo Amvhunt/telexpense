@@ -188,14 +188,8 @@ def register_user(dp: Dispatcher):
     dp.register_message_handler(
         cmd_cancel, lambda msg: msg.text.lower() == "cancel", state="*"
     )
-    dp.register_message_handler(
-        cmd_cancel, lambda msg: msg.text.lower() == "отмена", state="*"
-    )
     dp.register_message_handler(cmd_available, commands=["available"])
     dp.register_message_handler(
-        cmd_available, lambda message: message.text.startswith("💲Available")
-    )
-    dp.register_message_handler(
-        cmd_available, lambda message: message.text.startswith("💲Баланс")
+        cmd_available, lambda message: message.text.startswith("Available")
     )
     dp.register_message_handler(undo_transaction, commands=["undo"])
