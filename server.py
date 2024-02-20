@@ -4,8 +4,7 @@ import os
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-#API_TOKEN = os.getenv("TELEXPENSE_TOKEN")
-API_TOKEN = "6452138630:AAH0OUnZ2dEEk4QfDxbxiFPrqJQrH7nA-pk"
+API_TOKEN = os.getenv("TELEXPENSE_TOKEN")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
