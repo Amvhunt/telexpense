@@ -31,11 +31,11 @@ def register_all_handlers(dp):
     register_start_help(dp)
 
     # Registering commands for registration
-    register_registration(dp)
+    #register_registration(dp)
 
     # Registering comands for all users
     register_maincurrency(dp)
-    register_user(dp)
+    #register_user(dp)
     register_expenses(dp)
     register_income(dp)
     register_transfer(dp)
@@ -50,9 +50,9 @@ if __name__ == "__main__":
     from handlers.expenses import register_expenses
     from handlers.income import register_income
     from handlers.maincurrency import register_maincurrency
-    from handlers.registration import register_registration
+   # from handlers.registration import register_registration
     from handlers.transfer import register_transfer
-    from handlers.user import register_start_help, register_user
+    #from handlers.user import register_start_help, register_user
 
 
     register_all_handlers(dp)
