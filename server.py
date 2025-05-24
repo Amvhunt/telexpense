@@ -1,10 +1,27 @@
 import logging
 import os
+from dotenv import load_dotenv
 
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
-API_TOKEN = os.getenv("TELEXPENSE_TOKEN")
+load_dotenv()  # Эта строка загрузит переменные из .env
+
+API_TOKEN = os.getenv("BOT_TOKEN")
+ADMIN = os.getenv("ADMINS", "").split(",")
+GOOGLE_SHEET_URL = os.getenv("GOOGLE_SHEET_URL")
+
+# Дальше ваш код без изменений
+logging.basicConfig(level=logging.INFO)
+
+storage = MemoryStorage()
+bot = Bot(token=API_TOKEN)
+dp = Dispatcher(bot, storage=storage)
+
+if __name__ == "__main__":
+    # Импорт и регистрация хендлеров
+    register_all_handlers(dp)
+    executor.start_polling(dp, skip_updates=True)
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
