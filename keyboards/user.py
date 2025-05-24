@@ -27,14 +27,6 @@ def same_amount_keyb() -> ReplyKeyboardMarkup:
     return markup
 
 
-def register_keyb() -> ReplyKeyboardMarkup:
-    """Get keyboard with '/register' button"""
-    markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    markup.add("/register")
-
-    return markup
-
-
 def two_row_keyb(buttons: list) -> ReplyKeyboardMarkup:
     """Get keyboard with two row buttons from list"""
     markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
