@@ -26,9 +26,9 @@ if __name__ == "__main__":
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-def register_all_handlers(dp):
-    # Registering commands available for unregistered users
-    register_start_help(dp)
+#def register_all_handlers(dp):
+    # Registering commands #available for unregistered users
+   # register_start_help(dp)
 
     # Registering commands for registration
     #register_registration(dp)
